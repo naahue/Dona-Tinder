@@ -1,0 +1,42 @@
+
+/* Estilos para el contenedor del formulario */
+.form-container {
+    max-width: 26%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+}
+
+/* Estilos para el formulario dentro del contenedor */
+label, input, select, textarea {
+    display: block;
+    margin-bottom: 10px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.tutorial {
+	text-decoration: none;
+	border-radius: 20px;
+	border: 1px solid #ff7300;
+	background-color: #ff7300;
+	color: #FFFFFF;
+	font-size: 12px;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}

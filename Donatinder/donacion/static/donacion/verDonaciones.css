@@ -1,0 +1,16 @@
+
+/* Estilos para el contenedor del formulario */
+.form-container {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    inline-size: fit-content;
+    margin-top: 50px;
+}
+
+.centrarBotones{
+    text-align: center;
+}

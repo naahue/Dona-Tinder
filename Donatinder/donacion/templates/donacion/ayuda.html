@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'donacion/ayuda.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda</title>
+</head>
+<body>
+    <h1 class="titulo">Ayuda/Guía de Usuario: Cómo Donar un Objeto</h1>
+    <div class="seccion">
+        <h2 class="titulo-seccion">Iniciar Sesion</h2>
+        <div class="item"> - Si la página web requiere inicio de sesión, inicia sesión con tu cuenta o regístrate si aún no tienes una cuenta.</div>
+    </div>
+    <div class="seccion">
+        <h2 class="titulo-seccion">Ir a la Sección de Donaciones</h2>
+        <div class="item"> - Navega a la sección de ingresar donaciones en la página web.</div>
+    <div class="seccion">
+        <h2 class="titulo-seccion">Ingresar Objeto</h2>
+        <div class="item"> - Nombre del Objeto: Ingresa el nombre del objeto que deseas donar.</div>
+        <div class="item"> - Estado del Objeto: Describe el estado actual del objeto. Por ejemplo, si está nuevo, usado, necesita reparación, etc.</div>
+        <div class="item">- Descripción: Proporciona una descripción detallada del objeto. Incluye información relevante, como el tamaño, color, marca, y cualquier otro detalle importante.</div>
+
+        <div class="item"> - Adjunta una Imagen: Para ayudar a los demás a comprender mejor el objeto, adjunta una imagen del mismo. Sigue las instrucciones para cargar una imagen desde tu dispositivo.
+</div>
+      <div class="item"> - Revisar y Enviar: Revise la información que has proporcionado para asegurarte de que sea precisa y completa.
+Cuando estés satisfecho con la información, selecciona la opción para "Enviar Donación" o "Publicar Objeto".</div>
+        <div class="item"> - Confirmación: Recibirás una confirmación de que tu donación se ha registrado con éxito. Asegúrate de guardar cualquier número de referencia o confirmación que te proporcionen.</div>
+   <div class="seccion">
+        <h2 class="titulo-seccion">Modificar Datos</h2>
+     <div class="item"> - Busca la sección de "Modificar Usuario" o "Modificar Contraseña".
+    </div>
+      <div class="item"> - podrás modificar datos como tu nombre de usuario, contraseña, dirección de correo electrónico u otra información de tu perfil. </div>
+    <p> Ante cualquier duda puede comunicarse con servicio Tecnico</p>
+    <a class="btn volver" href="{% url 'donacion:ingresarDonacion' %}" role="button">Volver</a>
+</body>
+</html>

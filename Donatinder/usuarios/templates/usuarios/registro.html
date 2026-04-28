@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'usuarios/registro.css' %}">
+    <title>Registrarse</title>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form method="POST">
+                {% csrf_token %}
+                <h1>Crear Cuenta</h1>
+                <br>
+                {{ form.first_name }}
+                {{ form.last_name }}
+                {{ form.email }}
+                {{ form.password1 }}
+                {{ form.password2 }}
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <span>Error: {{ error }}</span>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <button type="submit">Registrate</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>¡Bienvenido!</h1>
+                    <p>Para seguir conectado con nosotros, por favor, ingresa con tus datos</p>
+                    <a type="button" class="init ghost" name="signIn" id="signIn" href="{% url 'usuarios:inicioSesion' %}">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
