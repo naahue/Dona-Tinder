@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="sp-AR">
+<html lang="es-AR">
 
 <head>
     <meta charset="UTF-8">
@@ -8,67 +8,66 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
     <link rel="stylesheet" href="{% static 'donacion/verDonaciones.css' %}">
     <title>Mis Donaciones</title>
 </head>
 
-<body>
+<body class="dt-body">
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Mi Cuenta
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{% url 'usuarios:modificarContraseña' %}">Modificar contraseña</a></li>
-                                <li><a class="dropdown-item" href="{% url 'usuarios:modificar' %}">Modificar Datos</a></li>
-                                <li><a class="dropdown-item" href="{% url 'usuarios:eliminarCuenta' %}">Eliminar Cuenta</a></li>
-                                <li><a class="dropdown-item" href="{% url 'usuarios:salir' %}">Salir</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Donaciones
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{% url 'donacion:ingresarDonacion' %}">Ingresar donación</a></li>
-                                <li><a class="dropdown-item" href="{% url 'donacion:verDonaciones' userId=user.id %}">Ver Donaciones</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Mi Cuenta
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'usuarios:modificarContraseña' %}">Modificar contraseña</a></li>
+                            <li><a class="dropdown-item" href="{% url 'usuarios:modificar' %}">Modificar Datos</a></li>
+                            <li><a class="dropdown-item" href="{% url 'usuarios:eliminarCuenta' %}">Eliminar Cuenta</a></li>
+                            <li><a class="dropdown-item" href="{% url 'usuarios:salir' %}">Salir</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink2" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Donaciones
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink2">
+                            <li><a class="dropdown-item" href="{% url 'donacion:ingresarDonacion' %}">Ingresar donación</a></li>
+                            <li><a class="dropdown-item" href="{% url 'donacion:verDonaciones' userId=user.id %}">Ver Donaciones</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Contenedor del formulario -->
-        <div class="form-container">
-            <h1>Mis Donaciones</h1>
-            {% for donacion in donaciones %}
-            <div class="container mt-3">
-                <h2>{{ donacion.nombre }}</h2>
-                <div class="card" style="width:400px">
-                    <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Card image"
-                        style="width:100%">
-                    <div class="card-body">
-                        <h3>Descripción:</h3>
-                        <p class="card-text">{{ donacion.descripcion }}</p> <!-- descripción de la donación -->
-                        <div class="centrarBotones">
-                              <a href= "{% url 'donacion:modificarDonacion' donacionId=donacion.id %}" class="btn btn-warning">Modificar</a>
-                            <a href="{% url 'donacion:confirmarDonacion' donacionId=donacion.id %}" class="btn btn-success">Confirmar Retiro</a>
-                            <a href="{% url 'donacion:eliminarDonacion' donacionId=donacion.id %}" class="btn btn-danger">Eliminar</a>
-                        </div>
+    <div class="form-container dt-form-panel">
+        <h1>Mis Donaciones</h1>
+        {% for donacion in donaciones %}
+        <div class="dt-donacion-block">
+            <h2 class="dt-donacion-titulo">{{ donacion.nombre }}</h2>
+            <div class="card dt-card-donacion dt-card-donacion-ver">
+                <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Imagen de la donación"
+                    style="width:100%">
+                <div class="card-body">
+                    <h3 class="h5">Descripción</h3>
+                    <p class="card-text">{{ donacion.descripcion }}</p>
+                    <div class="centrarBotones dt-acciones">
+                        <a href="{% url 'donacion:modificarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-modificar">Modificar</a>
+                        <a href="{% url 'donacion:confirmarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-confirmar">Confirmar retiro</a>
+                        <a href="{% url 'donacion:eliminarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-eliminar">Eliminar</a>
                     </div>
                 </div>
-                <br>
             </div>
-            {% endfor %}
         </div>
-    </body>
+        {% endfor %}
+    </div>
+
+</body>
 
 </html>

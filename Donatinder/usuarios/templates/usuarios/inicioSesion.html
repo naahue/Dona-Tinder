@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
     <link rel="stylesheet" href="{% static 'usuarios/inicioSesion.css' %}">
     <title>Registrarse</title>
 </head>
-<body>
+<body class="dt-body">
     <div class="container" id="container">
         <div class="form-container sign-in-container">
             <form method="POST">
@@ -27,7 +28,7 @@
                 {% if message %}
                     <span>{{ message }}</span>
                 {% endif %}
-                <a class="pass" href="#">¿Olvidaste tu contraseña?</a>
+                <a class="pass" href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
                 <button type="submit">Ingresar</button>
             </form>
         </div>

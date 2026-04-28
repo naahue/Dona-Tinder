@@ -1,34 +1,67 @@
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f6f5f7;
+body.ayuda-page {
+    font-family: "Montserrat", system-ui, sans-serif;
+    background: var(--dt-bg);
+    color: var(--dt-text);
+    padding: 2rem 1.25rem 3rem;
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.55;
 }
+
 .titulo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 1.65rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, var(--dt-orange), var(--dt-coral)) 1;
 }
+
 .seccion {
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
 }
+
 .titulo-seccion {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dt-coral);
+    margin-bottom: 0.5rem;
 }
+
 .item {
-    margin-bottom: 10px;
+    margin-bottom: 0.65rem;
+    font-size: 0.95rem;
+    color: var(--dt-text-soft);
+}
+
+.pie-ayuda {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--dt-text-soft);
+}
+
+.volver-wrap {
+    margin-top: 1.75rem;
+    text-align: center;
 }
 
 .volver {
-	text-decoration: none;
-	border-radius: 20px;
-	border: 1px solid #ff7300;
-	background-color: #ff7300;
-	color: #FFFFFF;
-	font-size: 12px;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: var(--dt-radius-pill);
+    border: none;
+    background: var(--dt-gradient);
+    color: #ffffff;
+    font-size: 12px;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.volver:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(255, 75, 43, 0.38);
 }

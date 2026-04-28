@@ -38,6 +38,16 @@ ALLOWED_HOSTS = [
 LOGIN_URL = '/inicioSesion'
 LOGIN_REDIRECT_URL = '/ingresarDonacion'
 
+# En desarrollo: los mails se guardan en BASE_DIR/sent_emails/ (un archivo por envío).
+# Alternativas: DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend (solo consola)
+# o SMTP en producción.
+EMAIL_BACKEND = os.environ.get(
+    'DJANGO_EMAIL_BACKEND',
+    'django.core.mail.backends.filebased.EmailBackend',
+)
+EMAIL_FILE_PATH = Path(os.environ.get('DJANGO_EMAIL_FILE_PATH', BASE_DIR / 'sent_emails'))
+DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'donatinder@localhost')
+
 
 # Application definition
 

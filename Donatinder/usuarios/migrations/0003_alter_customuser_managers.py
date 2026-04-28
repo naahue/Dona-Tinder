@@ -2,8 +2,6 @@
 
 from django.db import migrations
 
-import usuarios.models
-
 
 class Migration(migrations.Migration):
 
@@ -15,7 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelManagers(
             name='customuser',
             managers=[
-                ('objects', usuarios.models.CustomUserManager()),
             ],
         ),
     ]

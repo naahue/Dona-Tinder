@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  --dt-bg: #f6f5f7;
+  --dt-surface: #ffffff;
+  --dt-orange: #ff4b2b;
+  --dt-coral: #ff416c;
+  --dt-text: #2a2a33;
+  --dt-text-soft: #5c5c68;
+  --dt-input-bg: #eeeef2;
+  --dt-gradient: linear-gradient(135deg, #ff4b2b 0%, #ff416c 52%, #ff6b9d 100%);
+  --dt-gradient-nav: linear-gradient(92deg, #e8422d 0%, #ff416c 48%, #ff5e8f 100%);
+  --dt-shadow: 0 14px 38px rgba(255, 65, 108, 0.14), 0 6px 14px rgba(0, 0, 0, 0.06);
+  --dt-shadow-soft: 0 8px 24px rgba(255, 75, 43, 0.12);
+  --dt-radius: 14px;
+  --dt-radius-pill: 999px;
+  --dt-border: rgba(255, 75, 43, 0.16);
+}
+
+body.dt-body {
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: var(--dt-text);
+  background: var(--dt-bg);
+  min-height: 100vh;
+}
+
+.navbar.dt-navbar {
+  background: var(--dt-gradient-nav) !important;
+  box-shadow: 0 4px 22px rgba(255, 65, 108, 0.38);
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+.navbar.dt-navbar .navbar-nav .nav-link {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.navbar.dt-navbar .dropdown-menu-dark {
+  --bs-dropdown-bg: #2d2832;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  box-shadow: var(--dt-shadow);
+}
+
+.dt-form-panel {
+  background: var(--dt-surface);
+  border: 1px solid var(--dt-border);
+  border-radius: var(--dt-radius);
+  box-shadow: var(--dt-shadow-soft);
+}
+
+.dt-btn-submit {
+  background: var(--dt-gradient) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.8rem !important;
+  border-radius: var(--dt-radius-pill) !important;
+  padding: 0.55rem 1.35rem !important;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.15s ease;
+}
+
+.dt-btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(255, 75, 43, 0.38);
+  filter: brightness(1.04);
+}
+
+.dt-card-donacion.card {
+  border: none;
+  border-radius: var(--dt-radius);
+  box-shadow: var(--dt-shadow-soft);
+  overflow: hidden;
+}
+
+.dt-card-donacion .card-body {
+  padding: 1.25rem 1.35rem;
+}
+
+.dt-card-donacion .card-img-top {
+  border-radius: 0;
+}
+
+.dt-action.btn {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--dt-radius-pill);
+  padding: 0.4rem 1rem;
+  border: none;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.dt-action.btn:active {
+  transform: scale(0.97);
+}
+
+.dt-action-modificar.btn {
+  background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
+  color: #fff;
+}
+
+.dt-action-modificar.btn:hover {
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 112, 67, 0.45);
+}
+
+.dt-action-confirmar.btn {
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  color: #fff;
+}
+
+.dt-action-confirmar.btn:hover {
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.45);
+}
+
+.dt-action-eliminar.btn {
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  color: #fff;
+}
+
+.dt-action-eliminar.btn:hover {
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(198, 40, 40, 0.45);
+}
+
+.dt-btn-outline.btn {
+  background: #fff;
+  border: 2px solid var(--dt-orange);
+  color: var(--dt-orange);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--dt-radius-pill);
+  padding: 0.4rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.dt-btn-outline.btn:hover {
+  background: rgba(255, 75, 43, 0.08);
+  color: var(--dt-coral);
+  border-color: var(--dt-coral);
+}

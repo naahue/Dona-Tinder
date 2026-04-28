@@ -1,19 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="sp-AR">
+<html lang="es-AR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
     <link rel="stylesheet" href="{% static 'donacion/eliminarDonacion.css' %}">
-    <title>Eliminar donacion</title>
+    <title>Eliminar donación</title>
 </head>
-<body>
-    <body>
-        <!-- Barra de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="dt-body">
+        <nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
                     <ul class="navbar-nav">
@@ -30,11 +29,11 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink2" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Donaciones
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink2">
                                 <li><a class="dropdown-item" href="{% url 'donacion:ingresarDonacion' %}">Ingresar donación</a></li>
                                 <li><a class="dropdown-item" href="{% url 'donacion:verDonaciones' userId=user.id %}">Ver Donaciones</a></li>
                             </ul>
@@ -44,21 +43,21 @@
             </div>
         </nav>
         <div class="ajuste">
-            <div class="form-group">
-                <h1>Eliminar Retiro</h1>
+            <div class="form-group dt-form-panel">
+                <h1>Eliminar retiro</h1>
                 <form id="Form" method="POST">
                     {% csrf_token %}
                     <h3>{{ donacion.nombre }}</h3>
-                    <div class="card" style="width:400px">
-                        <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Card image"
+                    <div class="card dt-card-donacion" style="max-width:400px">
+                        <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Imagen de la donación"
                             style="width:100%">
                     </div>
                     <br>
                     <div class="centrarBotones">
-                        <p> ¿Seguro desea eliminar la Donacion? </p>
-                        <button class="btn btn-success" type="submit">Eliminar</button>
+                        <p> ¿Seguro desea eliminar la donación? </p>
+                        <button class="btn dt-action dt-action-eliminar" type="submit">Eliminar</button>
                         <br><br>
-                        <a href="{% url 'donacion:verDonaciones' userId=user.id %}" class="btn btn-warning" role="button">Volver</a>
+                        <a href="{% url 'donacion:verDonaciones' userId=user.id %}" class="btn dt-btn-outline" role="button">Volver</a>
                     </div>
                 </form>
             </div>

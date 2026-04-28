@@ -6,7 +6,7 @@
 }
 
 body {
-	background: #f6f5f7;
+	background: var(--dt-bg);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -35,8 +35,10 @@ p {
 
 span {
 	font-size: 12px;
-	background-color: #FF416C;
+	background-color: var(--dt-coral);
 	color: #FFFFFF;
+	border-radius: 6px;
+	padding: 2px 8px;
 }
 
 a {
@@ -46,17 +48,47 @@ a {
 	margin: 15px 0;
 }
 
+a.pass {
+	display: inline-block;
+	margin: 12px 0 18px;
+	padding: 0;
+	border: none;
+	background: none;
+	border-radius: 0;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--dt-coral);
+	text-decoration: none;
+	text-transform: none;
+	letter-spacing: 0.02em;
+	transition: color 0.15s ease;
+}
+
+a.pass:hover {
+	color: var(--dt-orange);
+	text-decoration: underline;
+}
+
+a.pass:active {
+	transform: none;
+}
+
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid var(--dt-orange);
+	background-color: var(--dt-orange);
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
 	padding: 12px 45px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	transition: transform 80ms ease-in;
+	transition: transform 80ms ease-in, box-shadow 0.2s ease, filter 0.15s ease;
+}
+
+button:hover {
+	filter: brightness(1.06);
+	box-shadow: 0 8px 22px rgba(255, 75, 43, 0.38);
 }
 
 button:active {
@@ -75,14 +107,20 @@ button.ghost {
 a.registrar {
 	text-decoration: none;
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid var(--dt-orange);
+	background-color: var(--dt-orange);
 	color: #FFFFFF;
 	font-size: 12px;
 	padding: 12px 45px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	transition: transform 80ms ease-in;
+	transition: transform 80ms ease-in, box-shadow 0.2s ease, filter 0.15s ease;
+}
+
+a.registrar:hover {
+	filter: brightness(1.06);
+	box-shadow: 0 8px 22px rgba(255, 75, 43, 0.38);
+	color: #FFFFFF;
 }
 
 a:active {
@@ -110,18 +148,25 @@ form {
 }
 
 input {
-	background-color: #eee;
-	border: none;
+	background-color: var(--dt-input-bg);
+	border: 1px solid transparent;
+	border-radius: 10px;
 	padding: 12px 15px;
 	margin: 8px 0;
 	width: 100%;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus {
+	outline: none;
+	border-color: rgba(255, 65, 108, 0.45);
+	box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.15);
 }
 
 .container {
 	background-color: #fff;
-	border-radius: 10px;
-  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-			0 10px 10px rgba(0,0,0,0.22);
+	border-radius: var(--dt-radius, 14px);
+  	box-shadow: var(--dt-shadow);
 	position: relative;
 	overflow: hidden;
 	width: 768px;
@@ -188,9 +233,9 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: var(--dt-coral);
+	background: -webkit-linear-gradient(to right, var(--dt-orange), var(--dt-coral));
+	background: linear-gradient(to right, var(--dt-orange), var(--dt-coral));
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -275,6 +320,11 @@ footer i {
 }
 
 footer a {
-    color: #3c97bf;
+    color: var(--dt-coral);
     text-decoration: none;
+    font-weight: 600;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }

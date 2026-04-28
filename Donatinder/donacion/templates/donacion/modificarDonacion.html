@@ -1,19 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-AR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
     <link rel="stylesheet" href="{% static 'donacion/modificarDonacion.css' %}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Donación</title>
 </head>
-<body>
-    <body>
-        <!-- Barra de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="dt-body">
+        <nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
                     <ul class="navbar-nav">
@@ -30,11 +29,11 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink2" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Donaciones
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink2">
                                 <li><a class="dropdown-item" href="{% url 'donacion:ingresarDonacion' %}">Ingresar donación</a></li>
                                 <li><a class="dropdown-item" href="{% url 'donacion:verDonaciones' userId=user.id %}">Ver Donaciones</a></li>
                             </ul>
@@ -43,9 +42,8 @@
                 </div>
             </div>
         </nav>
-    
-        <!-- Contenedor del formulario -->
-        <div class="form-container">
+
+        <div class="form-container dt-form-panel">
             <h1>Modificar Donación</h1>
             <form id="ModDonacion" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -57,9 +55,9 @@
                         {% endfor %}
                     {% endfor %}
                 {% endif %}
-                <button type="submit" class="btn btn-warning" >Actualizar</button>
+                <button type="submit" class="btn dt-btn-submit">Actualizar</button>
                 <br><br>
-                <a href="{% url 'donacion:verDonaciones' userId=user.id %}" class="btn btn-warning" role="button">Volver</a>
+                <a href="{% url 'donacion:verDonaciones' userId=user.id %}" class="btn dt-btn-outline" role="button">Volver</a>
             </form>
         </div>
 
