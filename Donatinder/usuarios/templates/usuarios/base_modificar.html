@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/modificar.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="dt-body">
+<div class="container" id="container">
+    <div class="form-container">
+        {% block inner %}{% endblock %}
+    </div>
+</div>
+</body>
+</html>

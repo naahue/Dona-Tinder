@@ -2,6 +2,27 @@
   const THRESHOLD = 96;
   const maxRotate = 14;
 
+  function flyOutCard(cardTop, direction, done) {
+    cardTop.style.transition = 'transform 0.32s ease-out';
+    const w = window.innerWidth;
+    const target = direction === 'left' ? -w : w;
+    const rot = direction === 'left' ? -maxRotate * 1.4 : maxRotate * 1.4;
+    cardTop.style.transform =
+      'translateX(' + target + 'px) rotate(' + rot + 'deg)';
+    const ribbonNope = cardTop.querySelector('.dt-ribbon-nope');
+    const ribbonLike = cardTop.querySelector('.dt-ribbon-like');
+    if (ribbonNope) ribbonNope.style.opacity = direction === 'left' ? '1' : '0';
+    if (ribbonLike) ribbonLike.style.opacity = direction === 'right' ? '1' : '0';
+    cardTop.addEventListener(
+      'transitionend',
+      function (ev) {
+        if (ev.propertyName !== 'transform') return;
+        done();
+      },
+      { once: true }
+    );
+  }
+
   const elJson = document.getElementById('inicio-donaciones-json');
   const mount = document.getElementById('inicio-mount');
   if (!elJson || !mount) return;
@@ -83,26 +104,6 @@
       }, 230);
     }
 
-    function flyOut(direction, done) {
-      cardTop.style.transition = 'transform 0.32s ease-out';
-      const w = window.innerWidth;
-      const target = direction === 'left' ? -w : w;
-      const rot = direction === 'left' ? -maxRotate * 1.4 : maxRotate * 1.4;
-      cardTop.style.transform =
-        'translateX(' + target + 'px) rotate(' + rot + 'deg)';
-      if (ribbonNope) ribbonNope.style.opacity = direction === 'left' ? '1' : '0';
-      if (ribbonLike) ribbonLike.style.opacity = direction === 'right' ? '1' : '0';
-      cardTop.addEventListener(
-        'transitionend',
-        function onTe(ev) {
-          if (ev.propertyName !== 'transform') return;
-          cardTop.removeEventListener('transitionend', onTe);
-          done();
-        },
-        { once: true }
-      );
-    }
-
     function onPointerDown(e) {
       if (e.button !== undefined && e.button !== 0) return;
       startX = e.clientX;
@@ -121,9 +122,9 @@
       if (!cardTop.hasPointerCapture(e.pointerId)) return;
       cardTop.releasePointerCapture(e.pointerId);
       if (dx < -THRESHOLD) {
-        flyOut('left', onSwipeLeft);
+        flyOutCard(cardTop, 'left', onSwipeLeft);
       } else if (dx > THRESHOLD) {
-        flyOut('right', onSwipeRight);
+        flyOutCard(cardTop, 'right', onSwipeRight);
       } else {
         resetDrag();
       }
@@ -187,32 +188,11 @@
     bindDrag(top, advance, advance);
 
     ctrl.querySelector('.dt-swipe-btn-nope').addEventListener('click', function () {
-      flyOutFromButtons(top, 'left', advance);
+      flyOutCard(top, 'left', advance);
     });
     ctrl.querySelector('.dt-swipe-btn-like').addEventListener('click', function () {
-      flyOutFromButtons(top, 'right', advance);
+      flyOutCard(top, 'right', advance);
     });
-  }
-
-  function flyOutFromButtons(cardTop, direction, done) {
-    cardTop.style.transition = 'transform 0.32s ease-out';
-    const w = window.innerWidth;
-    const target = direction === 'left' ? -w : w;
-    const rot = direction === 'left' ? -maxRotate * 1.4 : maxRotate * 1.4;
-    cardTop.style.transform =
-      'translateX(' + target + 'px) rotate(' + rot + 'deg)';
-    const ribbonNope = cardTop.querySelector('.dt-ribbon-nope');
-    const ribbonLike = cardTop.querySelector('.dt-ribbon-like');
-    if (ribbonNope) ribbonNope.style.opacity = direction === 'left' ? '1' : '0';
-    if (ribbonLike) ribbonLike.style.opacity = direction === 'right' ? '1' : '0';
-    cardTop.addEventListener(
-      'transitionend',
-      function (ev) {
-        if (ev.propertyName !== 'transform') return;
-        done();
-      },
-      { once: true }
-    );
   }
 
   renderDeck();

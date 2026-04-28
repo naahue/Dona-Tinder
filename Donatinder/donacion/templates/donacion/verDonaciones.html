@@ -1,73 +1,26 @@
+{% extends "donacion/base_bootstrap.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es-AR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'donacion/verDonaciones.css' %}">
-    <title>Mis Donaciones</title>
-</head>
-
-<body class="dt-body">
-
-    <nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Mi Cuenta
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{% url 'usuarios:modificarContraseña' %}">Modificar contraseña</a></li>
-                            <li><a class="dropdown-item" href="{% url 'usuarios:modificar' %}">Modificar Datos</a></li>
-                            <li><a class="dropdown-item" href="{% url 'usuarios:eliminarCuenta' %}">Eliminar Cuenta</a></li>
-                            <li><a class="dropdown-item" href="{% url 'usuarios:salir' %}">Salir</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'donacion:inicio' %}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'donacion:ingresarDonacion' %}">Agregar donación</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'donacion:verDonaciones' userId=user.id %}">Mis Donaciones</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="form-container dt-form-panel">
-        <h1>Mis Donaciones</h1>
-        {% for donacion in donaciones %}
-        <div class="dt-donacion-block">
-            <h2 class="dt-donacion-titulo">{{ donacion.nombre }}</h2>
-            <div class="card dt-card-donacion dt-card-donacion-ver">
-                <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Imagen de la donación"
-                    style="width:100%">
-                <div class="card-body">
-                    <h3 class="h5">Descripción</h3>
-                    <p class="card-text">{{ donacion.descripcion }}</p>
-                    <div class="centrarBotones dt-acciones">
-                        <a href="{% url 'donacion:modificarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-modificar">Modificar</a>
-                        <a href="{% url 'donacion:confirmarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-confirmar">Confirmar retiro</a>
-                        <a href="{% url 'donacion:eliminarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-eliminar">Eliminar</a>
-                    </div>
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/verDonaciones.css' %}">{% endblock %}
+{% block title %}Mis Donaciones{% endblock %}
+{% block content %}
+<div class="form-container dt-form-panel">
+    <h1>Mis Donaciones</h1>
+    {% for donacion in donaciones %}
+    <div class="dt-donacion-block">
+        <h2 class="dt-donacion-titulo">{{ donacion.nombre }}</h2>
+        <div class="card dt-card-donacion dt-card-donacion-ver">
+            <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Imagen de la donación" style="width:100%">
+            <div class="card-body">
+                <h3 class="h5">Descripción</h3>
+                <p class="card-text">{{ donacion.descripcion }}</p>
+                <div class="centrarBotones dt-acciones">
+                    <a href="{% url 'donacion:modificarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-modificar">Modificar</a>
+                    <a href="{% url 'donacion:confirmarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-confirmar">Confirmar retiro</a>
+                    <a href="{% url 'donacion:eliminarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-eliminar">Eliminar</a>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
-
-</body>
-
-</html>
+    {% endfor %}
+</div>
+{% endblock %}

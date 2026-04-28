@@ -18,8 +18,6 @@ def ingresarDonacion(request):
             donacion.donador = request.user
             donacion.save()
             return redirect('donacion:ingresarDonacion')
-        for error in form.errors.values():
-            print(error)
     else:
         form = IngresarDonacionForm()
     return render(request, 'donacion/ingresarDonacion.html', {'form': form})
@@ -29,7 +27,7 @@ def ingresarDonacion(request):
 def verDonaciones(request, userId):
     if request.user.pk != userId:
         return redirect('donacion:verDonaciones', userId=request.user.pk)
-    donaciones = Donacion.objects.filter(donador_id=userId, retirado=False)
+    donaciones = Donacion.objects.filter(donador=request.user, retirado=False)
     return render(request, 'donacion/verDonaciones.html', {'donaciones': donaciones})
 
 
@@ -76,8 +74,6 @@ def modificarDonacion(request, donacionId):
         if form.is_valid():
             form.save()
             return redirect('donacion:verDonaciones', userId=request.user.pk)
-        for error in form.errors.values():
-            print(error)
     else:
         form = ModificarDonacionForm(instance=donacion)
     return render(request, 'donacion/modificarDonacion.html', {'form': form})

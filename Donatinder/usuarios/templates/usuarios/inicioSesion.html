@@ -7,41 +7,33 @@
     <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
     <link rel="stylesheet" href="{% static 'usuarios/inicioSesion.css' %}">
-    <title>Registrarse</title>
+    <title>Iniciar sesión</title>
 </head>
 <body class="dt-body">
-    <div class="container" id="container">
-        <div class="form-container sign-in-container">
-            <form method="POST">
-                {% csrf_token %}
-                <h1>Iniciar Sesión</h1>
-                <br>
-                {{ form.email }}
-                {{ form.password }}
-                <br>
-                {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <span>Error: {{ error }}</span>
-                        {% endfor %}
-                    {% endfor %}
-                {% endif %}
-                {% if message %}
-                    <span>{{ message }}</span>
-                {% endif %}
-                <a class="pass" href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
-                <button type="submit">Ingresar</button>
-            </form>
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-right">
-                    <h1>¡Hola amigo!</h1>
-                    <p>Ingresa tus datos personales y empieza esta aventura junto a nosotros</p>
-                    <a type="button" class="registrar ghost" name="signUp" id="signUp" href="{% url 'usuarios:registrar' %}">Registrarse</a>
-                </div>
+<div class="container" id="container">
+    <div class="form-container sign-in-container">
+        <form method="POST">
+            {% csrf_token %}
+            <h1>Iniciar Sesión</h1>
+            <br>
+            {{ form.email }}
+            {{ form.password }}
+            <br>
+            {% include 'usuarios/includes/form_field_errors.html' %}
+            {% if message %}<span>{{ message }}</span>{% endif %}
+            <a class="pass" href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>¡Hola amigo!</h1>
+                <p>Ingresa tus datos personales y empieza esta aventura junto a nosotros</p>
+                <a type="button" class="registrar ghost" name="signUp" id="signUp" href="{% url 'usuarios:registrar' %}">Registrarse</a>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

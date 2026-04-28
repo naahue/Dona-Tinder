@@ -1,27 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/modificar.css' %}">
-    <title>Eliminar Cuenta</title>
-</head>
-<body class="dt-body">
-    <div class="container" id="container">
-        <div class="form-container">
-            <form method="POST">
-                {% csrf_token %}
-                <h1>¿Está seguro que desaea eliminar la cuenta?</h1>
-                <br>
-                <br>
-                <button type="submit">Eliminar</button>
-                <br>
-                <a class="btn" href="{% url 'donacion:ingresarDonacion' %}" role="button">Volver</a>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+{% extends "usuarios/base_modificar.html" %}
+{% block title %}Eliminar Cuenta{% endblock %}
+{% block inner %}
+<form method="POST">
+    {% csrf_token %}
+    <h1>¿Está seguro que desaea eliminar la cuenta?</h1>
+    <br>
+    <br>
+    <button type="submit">Eliminar</button>
+    <br>
+    <a class="btn" href="{% url 'donacion:ingresarDonacion' %}" role="button">Volver</a>
+</form>
+{% endblock %}

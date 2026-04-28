@@ -1,16 +1,10 @@
+{% extends "donacion/base_bootstrap.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es-AR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'donacion/ayuda.css' %}">
-    <title>Ayuda</title>
-</head>
-<body class="dt-body ayuda-page">
-    <h1 class="titulo">Ayuda / guía de usuario: cómo donar un objeto</h1>
+{% block body_class_extra %} ayuda-page{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/ayuda.css' %}">{% endblock %}
+{% block title %}Ayuda{% endblock %}
+{% block content %}
+<h1 class="titulo">Ayuda / guía de usuario: cómo donar un objeto</h1>
     <div class="seccion">
         <h2 class="titulo-seccion">Iniciar sesión</h2>
         <div class="item">Si la página web requiere inicio de sesión, iniciá sesión con tu cuenta o registrate si aún no tenés una cuenta.</div>
@@ -34,5 +28,4 @@
     </div>
     <p class="pie-ayuda">Ante cualquier duda podés comunicarte con servicio técnico.</p>
     <p class="volver-wrap"><a class="btn volver" href="{% url 'donacion:ingresarDonacion' %}" role="button">Volver</a></p>
-</body>
-</html>
+{% endblock %}

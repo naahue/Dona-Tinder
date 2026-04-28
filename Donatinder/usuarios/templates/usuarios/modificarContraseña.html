@@ -1,36 +1,16 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es-AR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/modificar.css' %}">
-    <title>Modificar Contraseña</title>
-</head>
-<body class="dt-body">
-    <div class="container" id="container">
-        <div class="form-container">
-            <form method="POST">
-                {% csrf_token %}
-                <h1>Modificar Contraseña</h1>
-                <br>
-                {{ form.password1 }}
-                {{ form.password2 }}
-                {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <span>Error: {{ error }}</span>
-                        {% endfor %}
-                    {% endfor %}
-                {% endif %}
-                <br>
-                <button type="submit">Modificar</button>
-                <br>
-                <a class="btn" href="{% url 'donacion:ingresarDonacion' %}" role="button">Volver</a>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+{% extends "usuarios/base_modificar.html" %}
+{% block title %}Modificar Contraseña{% endblock %}
+{% block inner %}
+<form method="POST">
+    {% csrf_token %}
+    <h1>Modificar Contraseña</h1>
+    <br>
+    {{ form.password1 }}
+    {{ form.password2 }}
+    {% include 'usuarios/includes/form_field_errors.html' %}
+    <br>
+    <button type="submit">Modificar</button>
+    <br>
+    <a class="btn" href="{% url 'donacion:ingresarDonacion' %}" role="button">Volver</a>
+</form>
+{% endblock %}

@@ -20,10 +20,6 @@ def registrar(request):
             if user is not None:
                 login(request, user)
                 return redirect('donacion:ingresarDonacion')
-            print('Error al querer iniciar sesión. Intentelo nuevamente.')
-        else:
-            for error in form.errors.values():
-                print(error)
     else:
         form = RegistroForm()
 
@@ -43,7 +39,6 @@ def inicioSesion(request):
                 login(request, user)
                 return redirect('donacion:ingresarDonacion')
             message = 'Error con el usuario o la contraseña'
-            print('Error con el usuario o la contraseña')
     else:
         form = InicioSesionForm()
     return render(request, 'usuarios/inicioSesion.html', {'form': form, 'message': message})
@@ -64,8 +59,6 @@ def modificar(request):
             request.user.last_name = form.cleaned_data['last_name']
             request.user.save()
             return redirect('donacion:ingresarDonacion')
-        for error in form.errors.values():
-            print(error)
     else:
         form = ModificarDatosForm(
             initial={'first_name': request.user.first_name, 'last_name': request.user.last_name}
@@ -82,8 +75,6 @@ def modificarContraseña(request):
             request.user.save()
             login(request, request.user)
             return redirect('donacion:ingresarDonacion')
-        for error in form.errors.values():
-            print(error)
     else:
         form = ModificarContraseñaForm()
     return render(request, 'usuarios/modificarContraseña.html', {'form': form})

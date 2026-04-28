@@ -1,65 +1,17 @@
+{% extends "donacion/base_bootstrap.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es-AR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'donacion/modificarDonacion.css' %}">
-    <title>Modificar Donación</title>
-</head>
-<body class="dt-body">
-        <nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Mi Cuenta
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{% url 'usuarios:modificarContraseña' %}">Modificar contraseña</a></li>
-                                <li><a class="dropdown-item" href="{% url 'usuarios:modificar' %}">Modificar Datos</a></li>
-                                <li><a class="dropdown-item" href="{% url 'usuarios:eliminarCuenta' %}">Eliminar Cuenta</a></li>
-                                <li><a class="dropdown-item" href="{% url 'usuarios:salir' %}">Salir</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'donacion:inicio' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'donacion:ingresarDonacion' %}">Agregar donación</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'donacion:verDonaciones' userId=user.id %}">Mis Donaciones</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="form-container dt-form-panel">
-            <h1>Modificar Donación</h1>
-            <form id="ModDonacion" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <span>Error: {{ error }}</span>
-                        {% endfor %}
-                    {% endfor %}
-                {% endif %}
-                <button type="submit" class="btn dt-btn-submit">Actualizar</button>
-                <br><br>
-                <a href="{% url 'donacion:verDonaciones' userId=user.id %}" class="btn dt-btn-outline" role="button">Volver</a>
-            </form>
-        </div>
-
-</body>
-</html>
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/modificarDonacion.css' %}">{% endblock %}
+{% block title %}Modificar Donación{% endblock %}
+{% block content %}
+<div class="form-container dt-form-panel">
+    <h1>Modificar Donación</h1>
+    <form id="ModDonacion" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% include 'usuarios/includes/form_field_errors.html' %}
+        <button type="submit" class="btn dt-btn-submit">Actualizar</button>
+        <br><br>
+        <a href="{% url 'donacion:verDonaciones' userId=user.id %}" class="btn dt-btn-outline" role="button">Volver</a>
+    </form>
+</div>
+{% endblock %}
