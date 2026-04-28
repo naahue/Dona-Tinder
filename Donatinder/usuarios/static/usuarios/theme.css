@@ -31,6 +31,13 @@ body.dt-body {
   padding-bottom: 0.65rem;
 }
 
+.navbar.dt-navbar .navbar-nav {
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.15rem;
+  row-gap: 0.35rem;
+}
+
 .navbar.dt-navbar .navbar-nav .nav-link {
   font-weight: 600;
   letter-spacing: 0.02em;

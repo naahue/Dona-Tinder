@@ -49,6 +49,26 @@ def ayuda(request):
 
 
 @login_required
+def inicio(request):
+    qs = (
+        Donacion.objects.filter(retirado=False)
+        .exclude(donador=request.user)
+        .order_by('-id')
+    )
+    items = [
+        {
+            'id': d.id,
+            'nombre': d.nombre,
+            'descripcion': d.descripcion,
+            'estado': d.get_estado_display(),
+            'imagen': d.imagen.url,
+        }
+        for d in qs
+    ]
+    return render(request, 'donacion/inicio.html', {'donaciones_data': items})
+
+
+@login_required
 def modificarDonacion(request, donacionId):
     donacion = _donacion_del_usuario(request, donacionId)
     if request.method == 'POST':

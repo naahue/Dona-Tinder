@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es-AR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +9,11 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'donacion/verDonaciones.css' %}">
-    <title>Mis Donaciones</title>
+    <link rel="stylesheet" href="{% static 'donacion/inicio.css' %}">
+    <title>Inicio</title>
 </head>
-
-<body class="dt-body">
-
+<body class="dt-body dt-inicio-body">
+    {{ donaciones_data|json_script:"inicio-donaciones-json" }}
     <nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -46,28 +44,12 @@
         </div>
     </nav>
 
-    <div class="form-container dt-form-panel">
-        <h1>Mis Donaciones</h1>
-        {% for donacion in donaciones %}
-        <div class="dt-donacion-block">
-            <h2 class="dt-donacion-titulo">{{ donacion.nombre }}</h2>
-            <div class="card dt-card-donacion dt-card-donacion-ver">
-                <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Imagen de la donación"
-                    style="width:100%">
-                <div class="card-body">
-                    <h3 class="h5">Descripción</h3>
-                    <p class="card-text">{{ donacion.descripcion }}</p>
-                    <div class="centrarBotones dt-acciones">
-                        <a href="{% url 'donacion:modificarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-modificar">Modificar</a>
-                        <a href="{% url 'donacion:confirmarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-confirmar">Confirmar retiro</a>
-                        <a href="{% url 'donacion:eliminarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-eliminar">Eliminar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    <main class="dt-inicio-main">
+        <h1 class="dt-inicio-title">Inicio</h1>
+        <p class="dt-inicio-sub">Deslizá cada tarjeta: hacia la izquierda para pasar o hacia la derecha si te interesa la donación.</p>
+        <div id="inicio-mount"></div>
+    </main>
 
+    <script src="{% static 'donacion/inicio.js' %}" defer></script>
 </body>
-
 </html>

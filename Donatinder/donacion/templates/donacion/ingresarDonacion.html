@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -28,15 +29,14 @@
                                 <li><a class="dropdown-item" href="{% url 'usuarios:salir' %}">Salir</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink2" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Donaciones
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink2">
-                                <li><a class="dropdown-item" href="{% url 'donacion:ingresarDonacion' %}">Ingresar donación</a></li>
-                                <li><a class="dropdown-item" href="{% url 'donacion:verDonaciones' userId=user.id %}">Ver Donaciones</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'donacion:inicio' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'donacion:ingresarDonacion' %}">Agregar donación</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'donacion:verDonaciones' userId=user.id %}">Mis Donaciones</a>
                         </li>
                     </ul>
                 </div>
