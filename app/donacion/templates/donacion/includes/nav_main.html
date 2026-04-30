@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark dt-navbar">
+    <div class="container-xxl px-3">
+        <a class="navbar-brand dt-navbar-brand" href="{% url 'donacion:inicio' %}">DONA-Tinder</a>
+        <button
+            class="navbar-toggler dt-navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDarkDropdown"
+            aria-controls="navbarNavDarkDropdown"
+            aria-expanded="false"
+            aria-label="Abrir menú"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            {% with ns=request.resolver_match.namespace un=request.resolver_match.url_name kw=request.resolver_match.kwargs %}
+            <ul class="navbar-nav ms-lg-auto align-items-lg-center gap-lg-1">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Mi Cuenta</a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'usuarios:modificarContraseña' %}">Modificar contraseña</a></li>
+                        <li><a class="dropdown-item" href="{% url 'usuarios:modificar' %}">Modificar Datos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'usuarios:eliminarCuenta' %}">Eliminar Cuenta</a></li>
+                        <li><a class="dropdown-item" href="{% url 'usuarios:salir' %}">Salir</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link{% if ns == 'donacion' and un == 'inicio' %} active{% endif %}" href="{% url 'donacion:inicio' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link{% if ns == 'donacion' and un == 'mis_chats' %} active{% endif %}" href="{% url 'donacion:mis_chats' %}">Chats</a></li>
+                <li class="nav-item"><a class="nav-link{% if ns == 'donacion' and un == 'mis_likes' %} active{% endif %}" href="{% url 'donacion:mis_likes' %}">Mis likes</a></li>
+                <li class="nav-item"><a class="nav-link{% if ns == 'donacion' and un == 'ingresarDonacion' %} active{% endif %}" href="{% url 'donacion:ingresarDonacion' %}">Agregar donación</a></li>
+                <li class="nav-item"><a class="nav-link{% if ns == 'donacion' and un == 'verDonaciones' and kw.userId == user.pk %} active{% endif %}" href="{% url 'donacion:verDonaciones' userId=user.id %}">Mis Donaciones</a></li>
+            </ul>
+            {% endwith %}
+        </div>
+    </div>
+</nav>

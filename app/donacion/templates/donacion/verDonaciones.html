@@ -1,0 +1,59 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/verDonaciones.css' %}">{% endblock %}
+{% block title %}Mis Donaciones{% endblock %}
+{% block content %}
+<div class="form-container dt-form-panel">
+    <h1>Mis Donaciones</h1>
+    {% for donacion in donaciones %}
+    <div class="dt-donacion-block">
+        <h2 class="dt-donacion-titulo">{{ donacion.nombre }}</h2>
+        <div class="dt-estado-row">
+            <span class="badge dt-badge-publicacion">{{ donacion.get_estado_publicacion_display }}</span>
+            {% if donacion.retirado %}
+            <span class="badge bg-dark">Fuera del feed (objeto fuera)</span>
+            {% endif %}
+        </div>
+        <div class="card dt-card-donacion dt-card-donacion-ver">
+            <img class="card-img-top" src="{{ donacion.imagen.url }}" alt="Imagen de la donación" style="width:100%">
+            <div class="card-body">
+                <h3 class="h5">Descripción</h3>
+                <p class="card-text">{{ donacion.descripcion }}</p>
+                <div class="centrarBotones dt-acciones">
+                    <a href="{% url 'donacion:donacion_chats' donacionId=donacion.id %}?filtro=todos" class="btn dt-action dt-action-chats">
+                        Chats {% if donacion.num_conversaciones_visibles %}({{ donacion.num_conversaciones_visibles }}){% endif %}
+                    </a>
+                    {% if donacion.estado_publicacion == 1 %}
+                    <a href="{% url 'donacion:modificarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-modificar">Modificar</a>
+                    {% endif %}
+                    {% if donacion.estado_publicacion == 1 and not donacion.retirado %}
+                    <a href="{% url 'donacion:confirmarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-confirmar">Confirmar retiro</a>
+                    {% endif %}
+                    {% if donacion.estado_publicacion == 1 %}
+                    <a href="{% url 'donacion:eliminarDonacion' donacionId=donacion.id %}" class="btn dt-action dt-action-eliminar">Eliminar</a>
+                    {% endif %}
+                </div>
+                <div class="dt-acciones-secundarias">
+                    {% if donacion.estado_publicacion == 2 %}
+                    <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}" class="dt-inline-form-block">
+                        {% csrf_token %}
+                        <button type="submit" name="accion" value="cancelar_reserva" class="btn btn-outline-warning btn-sm w-100">
+                            Cancelar reserva
+                        </button>
+                    </form>
+                    {% endif %}
+                    {% if donacion.estado_publicacion == 3 %}
+                    <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}" class="dt-inline-form-block">
+                        {% csrf_token %}
+                        <button type="submit" name="accion" value="reabrir" class="btn btn-outline-secondary btn-sm w-100">
+                            Reabrir donación
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

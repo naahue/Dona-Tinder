@@ -1,0 +1,43 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/mis_likes.css' %}">{% endblock %}
+{% block title %}Mis likes{% endblock %}
+{% block content %}
+<div class="dt-sheet-page">
+<div class="form-container dt-form-panel dt-mis-likes">
+    <h1>Mis likes</h1>
+    <p class="dt-mis-likes-lead">Donaciones a las que marcaste interés. Abrí el chat para coordinar con el donador.</p>
+    {% if not filas %}
+    <div class="dt-mis-likes-empty">
+    {% if num_chats_ocultos %}
+    <p class="dt-mis-likes-vacio mb-0">No tenés conversaciones visibles en esta lista. Si las ocultaste, abrí <a href="{% url 'donacion:mis_chats' %}?filtro=ocultos">Chats · Ocultos</a>. También podés ir a <a href="{% url 'donacion:inicio' %}">Inicio</a> o ver <strong><a href="{% url 'donacion:mis_chats' %}">Chats</a></strong> (todas).</p>
+    {% else %}
+    <p class="dt-mis-likes-vacio mb-0">Todavía no diste “me interesa” a ninguna publicación. Descubrí objetos en <a href="{% url 'donacion:inicio' %}">Inicio</a>.</p>
+    {% endif %}
+    </div>
+    {% endif %}
+    {% for fila in filas %}
+    {% with d=fila.decision.donacion %}
+    <div class="dt-mis-like-card">
+        <div class="dt-mis-like-media">
+            <img src="{{ d.imagen.url }}" alt="{{ d.nombre }}">
+        </div>
+        <div class="dt-mis-like-body">
+            {% if fila.aviso_interesado %}
+            <div class="alert alert-warning dt-mis-like-aviso py-2 px-3 small" role="status">{{ fila.aviso_interesado }}</div>
+            {% endif %}
+            <h2 class="dt-mis-like-titulo">{{ d.nombre }}</h2>
+            <p class="dt-mis-like-desc">{{ d.descripcion }}</p>
+            <a class="btn dt-action dt-mis-like-chat" href="{% url 'donacion:chat_conversacion' conversacionId=fila.conversacion.pk %}">Abrir chat</a>
+        </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+    {% if num_chats_ocultos %}
+    <p class="dt-mis-likes-ocultos-note">
+        Tenés {{ num_chats_ocultos }} chat{{ num_chats_ocultos|pluralize }} que ocultaste: <a href="{% url 'donacion:mis_chats' %}?filtro=ocultos">ver en Chats</a>. No aparecen en Mis likes hasta volverlos a mostrar desde el chat o Chats.
+    </p>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

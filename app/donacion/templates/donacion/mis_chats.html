@@ -1,0 +1,66 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/mis_chats.css' %}">{% endblock %}
+{% block title %}Chats{% endblock %}
+{% block content %}
+<div class="dt-sheet-page">
+<div class="form-container dt-form-panel dt-mis-chats-wrap">
+    <h1>Chats</h1>
+    <p class="dt-mis-chats-lead">Tus conversaciones con donadores cuando marcaste “me interesa”. Podés filtrar las que ocultaste en tus listas o verlas todas junto.</p>
+    <nav class="dt-mis-chats-filtros" aria-label="Filtro de conversaciones">
+        <span class="dt-mis-chats-filtros-label">Mostrar:</span>
+        <a href="{% url 'donacion:mis_chats' %}?filtro=todos"
+           class="btn btn-sm {% if filtro == 'todos' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Todos ({{ counts.todos }})</a>
+        <a href="{% url 'donacion:mis_chats' %}?filtro=visibles"
+           class="btn btn-sm {% if filtro == 'visibles' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Visibles ({{ counts.visibles }})</a>
+        <a href="{% url 'donacion:mis_chats' %}?filtro=ocultos"
+           class="btn btn-sm {% if filtro == 'ocultos' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Ocultos ({{ counts.ocultos }})</a>
+    </nav>
+
+    {% if counts.todos == 0 %}
+    <p class="dt-mis-chats-empty mb-0">Todavía no tenés chats: marcá “me interesa” en <a href="{% url 'donacion:inicio' %}">Inicio</a>; también los ves resumidos en <a href="{% url 'donacion:mis_likes' %}">Mis likes</a>.</p>
+    {% elif not filas %}
+    <p class="dt-mis-chats-empty mb-0">No hay conversaciones en este filtro. Probá con “Todos”, “Visibles” u “Ocultos”.</p>
+    {% endif %}
+
+    <div class="dt-mis-chats-sheet">
+    {% for fila in filas %}
+    {% with d=fila.decision.donacion %}
+    <div class="border rounded overflow-hidden dt-mis-chats-card-wrapper p-2 p-md-3">
+        <article class="dt-mis-chats-card">
+            <div class="dt-mis-chats-media">
+                <img src="{{ d.imagen.url }}" alt="{{ d.nombre }}">
+            </div>
+            <div class="dt-mis-chats-body">
+                {% if fila.aviso_interesado %}
+                <div class="alert alert-warning py-2 px-3 small mb-2" role="status">{{ fila.aviso_interesado }}</div>
+                {% endif %}
+                <div class="dt-mis-chats-meta">
+                    <h2 class="dt-mis-chats-titulo">{{ d.nombre }}</h2>
+                    {% if fila.oculto %}
+                    <span class="badge rounded-pill bg-secondary">Oculto en listas</span>
+                    {% else %}
+                    <span class="badge rounded-pill text-bg-success">Visible</span>
+                    {% endif %}
+                </div>
+                <p class="dt-mis-chats-desc mb-2">{{ d.descripcion }}</p>
+                <p class="small text-muted mb-2">{{ d.donador.email }}</p>
+                <div class="dt-mis-chats-acciones">
+                    <a href="{% url 'donacion:chat_conversacion' conversacionId=fila.conversacion.pk %}" class="btn dt-action btn-sm">Abrir chat</a>
+                    {% if fila.oculto %}
+                    <form method="post" action="{% url 'donacion:conversacion_seguridad' conversacionId=fila.conversacion.pk %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="accion" value="mostrar">
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Mostrar en listas</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+    </div>
+    {% endwith %}
+    {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}

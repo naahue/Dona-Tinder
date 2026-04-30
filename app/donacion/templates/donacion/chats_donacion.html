@@ -1,0 +1,78 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/chats_donacion.css' %}">{% endblock %}
+{% block title %}Chats · {{ donacion.nombre }}{% endblock %}
+{% block content %}
+<div class="form-container dt-form-panel dt-chats-donacion">
+    <a href="{% url 'donacion:verDonaciones' userId=request.user.pk %}" class="dt-chats-donacion-back">← Mis donaciones</a>
+    <h1 class="dt-chats-donacion-title">Chats · “{{ donacion.nombre }}”</h1>
+    <p class="dt-chats-donacion-sub">
+        Estado: <strong>{{ donacion.get_estado_publicacion_display }}</strong>
+        {% if donacion.reservado_con_id %}
+        · elegido para reserva:
+        {% if donacion.reservado_con %}<span class="dt-chats-mask">{{ donacion.reservado_con.email }}</span>{% endif %}
+        {% endif %}
+    </p>
+    <nav class="dt-chats-donacion-filtros" aria-label="Filtro por visibilidad">
+        <span class="dt-chats-donacion-filtros-label">Mostrar:</span>
+        <a href="{% url 'donacion:donacion_chats' donacionId=donacion.id %}?filtro=todos"
+           class="btn btn-sm {% if filtro == 'todos' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Todos ({{ counts.todos }})</a>
+        <a href="{% url 'donacion:donacion_chats' donacionId=donacion.id %}?filtro=visibles"
+           class="btn btn-sm {% if filtro == 'visibles' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Visibles ({{ counts.visibles }})</a>
+        <a href="{% url 'donacion:donacion_chats' donacionId=donacion.id %}?filtro=ocultos"
+           class="btn btn-sm {% if filtro == 'ocultos' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Ocultos ({{ counts.ocultos }})</a>
+    </nav>
+    <div class="dt-chats-donacion-acciones-globales">
+        {% if puede_cancelar_reserva_global %}
+        <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}" class="dt-inline-accion-form">
+            {% csrf_token %}
+            <button type="submit" name="accion" value="cancelar_reserva" class="btn btn-outline-warning btn-sm">
+                Cancelar reserva y volver a publicar para todos
+            </button>
+        </form>
+        {% endif %}
+        {% if puede_reabrir %}
+        <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}" class="dt-inline-accion-form">
+            {% csrf_token %}
+            <button type="submit" name="accion" value="reabrir" class="btn btn-outline-secondary btn-sm">
+                Reabrir donación (vuelve al feed)
+            </button>
+        </form>
+        {% endif %}
+    </div>
+    {% if counts.todos == 0 %}
+    <p class="dt-chats-empty">Todavía nadie marcó “me interesa” sobre esta donación.</p>
+    {% elif not conversaciones %}
+    <p class="dt-chats-empty">No hay chats en este filtro. Probá con “Todos” u otra opción.</p>
+    {% endif %}
+    {% if conversaciones %}
+    <ul class="list-group dt-chats-lista">
+        {% for c in conversaciones %}
+        <li class="list-group-item dt-chats-item">
+            <div class="dt-chats-item-main">
+                <span class="dt-chats-mask">{{ c.interesado.email }}</span>
+                {% if c.pk in oculto_ids %}
+                <span class="badge rounded-pill bg-secondary">Oculto en tus listas</span>
+                {% endif %}
+                {% if c.escritura_bloqueada %}
+                <span class="badge bg-secondary">Chat cerrado para envíos</span>
+                {% else %}
+                <span class="badge dt-badge-abierto">Abierto</span>
+                {% endif %}
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-center justify-content-end">
+                {% if c.pk in oculto_ids %}
+                <form method="post" action="{% url 'donacion:conversacion_seguridad' conversacionId=c.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="accion" value="mostrar">
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Mostrar</button>
+                </form>
+                {% endif %}
+                <a href="{% url 'donacion:chat_conversacion' conversacionId=c.id %}" class="btn btn-sm dt-action">Ir al chat</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}

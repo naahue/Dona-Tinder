@@ -1,0 +1,21 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block body_class_extra %} dt-inicio-body{% endblock %}
+{% block top_body %}
+{{ donaciones_data|json_script:"inicio-donaciones-json" }}
+<form id="dt-csrf-form" class="d-none">{% csrf_token %}</form>
+{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/inicio.css' %}">{% endblock %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="dt-inicio-main">
+    <h1 class="dt-inicio-title">Inicio</h1>
+    <p class="dt-inicio-sub">Deslizá cada tarjeta: hacia la izquierda para pasar o hacia la derecha si te interesa la donación.</p>
+    <div
+        id="inicio-mount"
+        data-decision-url="{% url 'donacion:api_registrar_decision' %}"
+        data-deshacer-pass-url="{% url 'donacion:api_deshacer_pass' %}"
+    ></div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'donacion/inicio.js' %}" defer></script>{% endblock %}

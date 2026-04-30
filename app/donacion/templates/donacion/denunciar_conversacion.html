@@ -1,0 +1,20 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block title %}Reportar chat · {{ donacion.nombre }}{% endblock %}
+{% block content %}
+<div class="form-container dt-form-panel dt-denuncia-wrap">
+    <a href="{% url 'donacion:chat_conversacion' conversacionId=conversacion.pk %}" class="text-decoration-none">← Volver al chat</a>
+    <h1 class="mt-3">Reportar esta conversación</h1>
+    <p class="text-muted small">Donación: <strong>{{ donacion.nombre }}</strong>.</p>
+    <p class="small">Las denuncias se revisan desde el administrador del sitio. Podés aclarar el motivo más abajo.</p>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        {% if form.comentario.errors %}
+        <div class="alert alert-danger small">{{ form.comentario.errors }}</div>
+        {% endif %}
+        {{ form.comentario.label_tag }}
+        {{ form.comentario }}
+        <button type="submit" class="btn dt-btn-submit mt-3">Enviar denuncia</button>
+    </form>
+</div>
+{% endblock %}

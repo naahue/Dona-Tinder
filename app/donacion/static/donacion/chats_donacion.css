@@ -1,0 +1,93 @@
+.dt-chats-donacion {
+  max-width: 640px;
+}
+
+.dt-chats-donacion-back {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--dt-coral);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dt-chats-donacion-back:hover {
+  text-decoration: underline;
+}
+
+.dt-chats-donacion-title {
+  text-align: center;
+  font-size: 1.35rem;
+  margin-bottom: 0.35rem;
+  color: var(--dt-text);
+}
+
+.dt-chats-donacion-sub {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--dt-text-soft);
+  margin-bottom: 1rem;
+}
+
+.dt-chats-donacion-acciones-globales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.dt-chats-donacion-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dt-chats-donacion-filtros-label {
+  color: var(--dt-text-soft);
+  font-size: 0.9rem;
+}
+
+.dt-chats-donacion-filtros .btn {
+  font-size: 0.875rem;
+}
+
+.dt-inline-accion-form {
+  display: inline;
+}
+
+.dt-chats-mask {
+  font-size: 0.88rem;
+  word-break: break-all;
+}
+
+.dt-chats-empty {
+  text-align: center;
+  color: var(--dt-text-soft);
+}
+
+.dt-chats-lista {
+  border-radius: var(--dt-radius);
+}
+
+.dt-chats-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.dt-chats-item-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dt-badge-abierto {
+  background: rgba(67, 160, 71, 0.2);
+  color: #2e7d32;
+}

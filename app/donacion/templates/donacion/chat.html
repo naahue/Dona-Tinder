@@ -1,0 +1,131 @@
+{% extends "donacion/base_bootstrap.html" %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donacion/chat.css' %}">{% endblock %}
+{% block title %}Chat · {{ donacion.nombre }}{% endblock %}
+{% block content %}
+<div class="form-container dt-form-panel dt-chat-wrap">
+    <div class="dt-chat-header">
+        <a
+            href="{% if request.user.pk == conversacion.interesado_id %}{% url 'donacion:mis_chats' %}{% elif lista_chats_url %}{{ lista_chats_url }}{% else %}{% url 'donacion:verDonaciones' userId=request.user.pk %}{% endif %}"
+            class="dt-chat-back"
+        >{% if request.user.pk == conversacion.interesado_id %}← Chats{% elif lista_chats_url %}← Esta donación{% else %}← Mis donaciones{% endif %}</a>
+        <h1 class="dt-chat-title">{{ donacion.nombre }}</h1>
+        <p class="dt-chat-sub">{{ donacion.get_estado_display }} · Publicación: {{ donacion.get_estado_publicacion_display }}.</p>
+    </div>
+    {% if esta_oculta_para_mi %}
+    <div class="alert alert-info dt-chat-oculto-alert" role="status">
+        Ocultaste esta conversación en tus listas; podés encontrarla y mostrarla de nuevo desde <strong>Chats</strong>.
+    </div>
+    {% endif %}
+    <div class="card dt-chat-seguridad mb-3">
+        <div class="card-body py-3">
+            <h2 class="h6 mb-3">Privacidad y seguridad</h2>
+            <div class="dt-chat-seg-btns">
+                <form method="post" action="{{ url_seguridad_accion }}">
+                    {% csrf_token %}
+                    <button type="submit" name="accion" value="ocultar" class="btn btn-outline-secondary btn-sm">
+                        Ocultar en mis listas
+                    </button>
+                </form>
+                {% if esta_oculta_para_mi %}
+                <form method="post" action="{{ url_seguridad_accion }}">
+                    {% csrf_token %}
+                    <button type="submit" name="accion" value="mostrar" class="btn btn-outline-primary btn-sm">
+                        Mostrar en listas
+                    </button>
+                </form>
+                {% endif %}
+                <form
+                    method="post"
+                    action="{{ url_seguridad_accion }}"
+                    onsubmit="return confirm('Vas a bloquear a la otra persona: el chat quedará oculto para ambos y no podrán volver a abrirlo. ¿Seguís?');"
+                >
+                    {% csrf_token %}
+                    <button type="submit" name="accion" value="bloquear" class="btn btn-outline-danger btn-sm">
+                        Bloquear usuario
+                    </button>
+                </form>
+                <a href="{{ url_denunciar }}" class="btn btn-link btn-sm text-decoration-none">Reportar problema</a>
+            </div>
+        </div>
+    </div>
+    {% if es_donador %}
+    <div class="card dt-chat-donador-panel mb-3">
+        <div class="card-body">
+            <h2 class="h6 mb-3">Tu rol: donador</h2>
+            <div class="d-grid gap-2">
+                {% if puede_reservar %}
+                <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="conversacion_id" value="{{ conversacion.id }}">
+                    <button type="submit" name="accion" value="reservar" class="btn dt-btn-submit w-100">
+                        Reservar para esta persona
+                    </button>
+                </form>
+                {% endif %}
+                {% if mostrar_confirmar_entrega %}
+                <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="accion" value="confirmar_entrega" class="btn btn-success w-100">
+                        Confirmar entrega realizada
+                    </button>
+                </form>
+                {% endif %}
+                {% if mostrar_cancelar_reserva %}
+                <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="accion" value="cancelar_reserva" class="btn btn-outline-warning w-100">
+                        Cancelar reserva
+                    </button>
+                </form>
+                {% endif %}
+                {% if mostrar_reabrir %}
+                <form method="post" action="{% url 'donacion:donacion_donador_accion' donacionId=donacion.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="accion" value="reabrir" class="btn btn-outline-secondary w-100">
+                        Reabrir donación
+                    </button>
+                </form>
+                {% endif %}
+                {% if not puede_reservar and not mostrar_confirmar_entrega and not mostrar_cancelar_reserva and not mostrar_reabrir %}
+                <p class="small text-muted mb-0">No hay acciones disponibles desde este chat con el estado actual.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if escritura_bloqueada %}
+    <div class="alert alert-secondary dt-chat-alert" role="status">{{ motivo_bloqueo|default:"Este chat está cerrado para nuevos mensajes." }}</div>
+    {% endif %}
+    <div class="dt-chat-thread" aria-live="polite">
+        {% if not mensajes %}
+        <p class="dt-chat-placeholder">Todavía no hay mensajes. Saludá o preguntá lo que necesites.</p>
+        {% endif %}
+        {% for mensaje in mensajes %}
+        <article class="dt-chat-msg {% if mensaje.autor_id == request.user.pk %}dt-chat-msg--own{% else %}dt-chat-msg--other{% endif %}">
+            <header class="dt-chat-msg-meta">
+                {% if mensaje.autor_id == request.user.pk %}
+                <span>Vos</span>
+                {% elif mensaje.autor_id == donacion.donador_id %}
+                <span>Donador</span>
+                {% else %}
+                <span>Interesado</span>
+                {% endif %}
+                <time datetime="{{ mensaje.creado|date:'c' }}">{{ mensaje.creado|date:"d/m/Y H:i" }}</time>
+            </header>
+            <p class="dt-chat-msg-cuerpo">{{ mensaje.cuerpo }}</p>
+        </article>
+        {% endfor %}
+    </div>
+    <div class="dt-chat-compose">
+        <form method="post" class="dt-chat-form">
+            {% csrf_token %}
+            {% if form.cuerpo.errors %}
+            <div class="text-danger small mb-2">{{ form.cuerpo.errors }}</div>
+            {% endif %}
+            {{ form.cuerpo }}
+            <button type="submit" class="btn dt-btn-submit dt-chat-send" {% if escritura_bloqueada %}disabled{% endif %}>Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

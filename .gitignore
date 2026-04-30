@@ -1,17 +1,31 @@
+# Python
 *.py[cod]
 __pycache__/
-*.sqlite3
-db.sqlite3
-/media/
-Donatinder/media/
-sent_emails/
-.env
-.venv/
-venv/
-Lib/
-Scripts/
-pyvenv.cfg
 *.egg-info/
 .eggs/
 dist/
 build/
+
+# Django local (host), carpeta proyecto `app/`
+/media/
+app/media/
+app/sent_emails/
+app/.compose_data/
+app/.run/
+app/staticfiles/
+staticfiles/
+sent_emails/
+*.sqlite3
+db.sqlite3
+
+# Secrets y entorno
+.env
+
+# Virtuales: preferí .venv/ en la raíz del repo o bajo app/
+.venv/
+venv/
+
+# Si por error inicializás venv en la raíz del repo (no hagas)
+Lib/
+Scripts/
+pyvenv.cfg

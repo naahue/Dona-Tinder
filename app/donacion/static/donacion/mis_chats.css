@@ -1,0 +1,107 @@
+.dt-mis-chats-wrap {
+  align-items: stretch;
+  width: 100%;
+}
+
+.dt-mis-chats-wrap > h1 {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0.65rem;
+}
+
+.dt-mis-chats-lead {
+  color: var(--dt-text-soft);
+  font-size: 0.95rem;
+  text-align: center;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+.dt-mis-chats-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.dt-mis-chats-filtros-label {
+  color: var(--dt-text-soft);
+  font-size: 0.9rem;
+}
+
+.dt-mis-chats-filtros .btn {
+  font-size: 0.875rem;
+}
+
+.dt-mis-chats-empty {
+  color: var(--dt-text-soft);
+  text-align: center;
+  margin: 0;
+  padding: 2rem 1.25rem;
+  border-radius: var(--dt-radius);
+  background: var(--dt-input-bg);
+  border: 1px dashed var(--dt-border);
+}
+
+.dt-mis-chats-sheet {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.dt-mis-chats-card {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 560px) {
+  .dt-mis-chats-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .dt-mis-chats-card .dt-mis-chats-media img {
+    max-height: 9rem;
+  }
+}
+
+.dt-mis-chats-media img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--dt-radius);
+  object-fit: cover;
+}
+
+.dt-mis-chats-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.dt-mis-chats-titulo {
+  font-size: 1.08rem;
+  margin: 0;
+}
+
+.dt-mis-chats-desc {
+  color: var(--dt-text-soft);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.dt-mis-chats-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+

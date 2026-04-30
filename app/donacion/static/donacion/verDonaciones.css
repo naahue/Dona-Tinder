@@ -1,0 +1,97 @@
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    max-width: min(960px, 100%);
+    margin: 2rem auto;
+    padding: 1.75rem 1.5rem;
+    box-sizing: border-box;
+    min-height: 0;
+}
+
+.form-container > h1 {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.centrarBotones {
+    text-align: center;
+}
+
+.dt-donacion-block {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dt-donacion-block:last-child {
+    margin-bottom: 0;
+}
+
+.dt-donacion-titulo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dt-text);
+    margin-bottom: 0.75rem;
+    text-align: center;
+    max-width: 400px;
+}
+
+.dt-card-donacion-ver {
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dt-card-donacion-ver .card-body {
+    text-align: left;
+}
+
+.dt-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.dt-estado-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: center;
+    margin-bottom: 0.65rem;
+}
+
+.dt-badge-publicacion {
+  background: rgba(255, 65, 108, 0.15);
+  color: var(--dt-coral);
+  font-weight: 600;
+}
+
+.dt-action-chats {
+  background: rgba(79, 70, 229, 0.12);
+  color: #4338ca;
+  border-color: rgba(79, 70, 229, 0.25);
+}
+
+.dt-acciones-secundarias {
+  margin-top: 0.75rem;
+}
+
+.dt-inline-form-block {
+  width: 100%;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Solo en Mis donaciones: ancho según contenido (sobrescribe theme width: 100%). */
+.form-container.dt-form-panel {
+  width: max-content;
+  max-width: min(960px, 100%);
+}

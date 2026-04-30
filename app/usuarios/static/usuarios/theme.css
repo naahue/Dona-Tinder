@@ -1,0 +1,339 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  --dt-bg: #f6f5f7;
+  --dt-surface: #ffffff;
+  --dt-orange: #ff4b2b;
+  --dt-coral: #ff416c;
+  --dt-text: #2a2a33;
+  --dt-text-soft: #5c5c68;
+  --dt-input-bg: #eeeef2;
+  --dt-gradient: linear-gradient(135deg, #ff4b2b 0%, #ff416c 52%, #ff6b9d 100%);
+  --dt-gradient-nav: linear-gradient(92deg, #e8422d 0%, #ff416c 48%, #ff5e8f 100%);
+  --dt-shadow: 0 14px 38px rgba(255, 65, 108, 0.14), 0 6px 14px rgba(0, 0, 0, 0.06);
+  --dt-shadow-soft: 0 8px 24px rgba(255, 75, 43, 0.12);
+  --dt-radius: 14px;
+  --dt-radius-pill: 999px;
+  --dt-border: rgba(255, 75, 43, 0.16);
+}
+
+body.dt-body {
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: var(--dt-text);
+  background: var(--dt-bg);
+  min-height: 100vh;
+}
+
+.navbar.dt-navbar {
+  background: var(--dt-gradient-nav) !important;
+  box-shadow: 0 4px 22px rgba(255, 65, 108, 0.38);
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+.navbar.dt-navbar .navbar-nav {
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.15rem;
+  row-gap: 0.35rem;
+}
+
+.navbar.dt-navbar .navbar-nav .nav-link {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.navbar.dt-navbar .navbar-nav .nav-link.active {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: var(--dt-radius-pill);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.navbar.dt-navbar .dropdown-menu-dark {
+  --bs-dropdown-bg: #2d2832;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  box-shadow: var(--dt-shadow);
+}
+
+.dt-form-panel {
+  background: var(--dt-surface);
+  border: 1px solid var(--dt-border);
+  border-radius: var(--dt-radius);
+  box-shadow: var(--dt-shadow-soft);
+}
+
+/* Paneles de donación compartidos (.form-container + .dt-form-panel): sin 100vw (rompe dentro de main con padding). */
+.form-container.dt-form-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.75rem 1.5rem;
+}
+
+.dt-btn-submit {
+  background: var(--dt-gradient) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.8rem !important;
+  border-radius: var(--dt-radius-pill) !important;
+  padding: 0.55rem 1.35rem !important;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.15s ease;
+}
+
+.dt-btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(255, 75, 43, 0.38);
+  filter: brightness(1.04);
+}
+
+.dt-card-donacion.card {
+  border: none;
+  border-radius: var(--dt-radius);
+  box-shadow: var(--dt-shadow-soft);
+  overflow: hidden;
+}
+
+.dt-card-donacion .card-body {
+  padding: 1.25rem 1.35rem;
+}
+
+.dt-card-donacion .card-img-top {
+  border-radius: 0;
+}
+
+.dt-action.btn {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--dt-radius-pill);
+  padding: 0.4rem 1rem;
+  border: none;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.dt-action.btn:active {
+  transform: scale(0.97);
+}
+
+.dt-action-modificar.btn {
+  background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
+  color: #fff;
+}
+
+.dt-action-modificar.btn:hover {
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 112, 67, 0.45);
+}
+
+.dt-action-confirmar.btn {
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  color: #fff;
+}
+
+.dt-action-confirmar.btn:hover {
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.45);
+}
+
+.dt-action-eliminar.btn {
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  color: #fff;
+}
+
+.dt-action-eliminar.btn:hover {
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(198, 40, 40, 0.45);
+}
+
+.dt-btn-outline.btn {
+  background: #fff;
+  border: 2px solid var(--dt-orange);
+  color: var(--dt-orange);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--dt-radius-pill);
+  padding: 0.4rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.dt-btn-outline.btn:hover {
+  background: rgba(255, 75, 43, 0.08);
+  color: var(--dt-coral);
+  border-color: var(--dt-coral);
+}
+
+/* --- App chrome (scoped to main layout) --- */
+
+body.dt-body:not(.dt-auth-layout) {
+  padding-bottom: 0;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dt-main {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+.dt-main.container-fluid {
+  padding: 1.75rem clamp(0.875rem, 4vw, 1.75rem) 2.75rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+  Contenedor centrado respecto del área útil del main (evita paneles pegados al borde
+  con 100vw/anchos máximos raros en flex).
+*/
+.dt-sheet-page {
+  box-sizing: border-box;
+  width: min(960px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dt-sheet-page.dt-sheet-page--narrow {
+  width: min(640px, 100%);
+}
+
+.dt-navbar-brand.navbar-brand {
+  color: rgba(255, 255, 255, 0.98);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dt-navbar-brand.navbar-brand:hover,
+.dt-navbar-brand.navbar-brand:focus-visible {
+  color: #fff;
+}
+
+.navbar.dt-navbar .navbar-toggler.dt-navbar-toggler {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+}
+
+.navbar.dt-navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 991.98px) {
+  .navbar.dt-navbar .navbar-nav {
+    padding-top: 0.85rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .navbar.dt-navbar .nav-link {
+    padding: 0.45rem 0;
+    border-radius: 10px;
+  }
+
+  .navbar.dt-navbar .nav-link:active {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.dt-main .form-container.dt-form-panel a:not(.btn):not(.page-link):not(.list-group-item) {
+  color: var(--dt-coral);
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.dt-main .form-container.dt-form-panel a:not(.btn):not(.page-link):not(.list-group-item):hover {
+  color: var(--dt-orange);
+}
+
+.dt-main a:not(.nav-link):not(.dropdown-item):not(.navbar-brand):not(.btn):not(.page-link):not(.list-group-item):not(.dt-chat-back):not(.dt-chats-donacion-back) {
+  color: var(--dt-coral);
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.dt-main a:not(.nav-link):not(.dropdown-item):not(.navbar-brand):not(.btn):not(.page-link):not(.list-group-item):not(.dt-chat-back):not(.dt-chats-donacion-back):hover {
+  color: var(--dt-orange);
+}
+
+.dt-body .alert {
+  border: none;
+  border-radius: var(--dt-radius);
+  box-shadow: var(--dt-shadow-soft);
+}
+
+.dt-body .form-control,
+.dt-body .form-select {
+  border-radius: 10px;
+  border-color: rgba(255, 75, 43, 0.18);
+}
+
+.dt-body .form-control:focus,
+.dt-body .form-select:focus {
+  border-color: rgba(255, 65, 108, 0.45);
+  box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.12);
+}
+
+.dt-body label.form-label,
+.dt-body legend.col-form-label {
+  color: var(--dt-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-container.dt-form-panel > h1,
+.form-container.dt-form-panel > .h3,
+.dt-form-panel .card-body > h3:first-child {
+  color: var(--dt-text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+
+.dt-body .list-group-item {
+  border-color: rgba(255, 75, 43, 0.1);
+}
+
+.dt-body .list-group-item.active {
+  background: var(--dt-gradient);
+  border-color: transparent;
+}
+
+.dt-body .pagination .page-link {
+  border-radius: 10px;
+  margin: 0 0.15rem;
+  color: var(--dt-coral);
+  font-weight: 600;
+  border-color: var(--dt-border);
+}
+
+.dt-body .pagination .page-link:hover {
+  background: rgba(255, 75, 43, 0.08);
+  color: var(--dt-orange);
+  border-color: rgba(255, 75, 43, 0.25);
+}
+
+.dt-body .pagination .page-item.active .page-link {
+  background: var(--dt-gradient);
+  border-color: transparent;
+}
+
+/* Auth split layout: no clash with Bootstrap .container */
+body.dt-auth-layout {
+  box-sizing: border-box;
+}

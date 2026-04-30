@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{% static 'usuarios/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/inicioSesion.css' %}">
+    <title>Iniciar sesión</title>
+</head>
+<body class="dt-body dt-auth-layout">
+<div id="container" class="dt-auth-shell">
+    <div class="form-container sign-in-container">
+        <form method="POST">
+            {% csrf_token %}
+            <h1>Iniciar Sesión</h1>
+            <br>
+            {{ form.email }}
+            {{ form.password }}
+            <br>
+            {% include 'usuarios/includes/form_field_errors.html' %}
+            {% if message %}<span>{{ message }}</span>{% endif %}
+            <a class="pass" href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>¡Hola amigo!</h1>
+                <p>Ingresa tus datos personales y empieza esta aventura junto a nosotros</p>
+                <a type="button" class="registrar ghost" name="signUp" id="signUp" href="{% url 'usuarios:registrar' %}">Registrarse</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

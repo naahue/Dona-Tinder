@@ -1,0 +1,65 @@
+# DONA-Tinder · Docker Compose (web + Postgres)
+#
+# Arranque / borrado típico (desde la raíz, sólo estos dos comandos):
+#   docker compose up -d
+#   docker compose down -v   (vacía Postgres + volumen uploads_data de /app/media)
+#
+# Demo (tras migrate + seed_docker_demo):
+#   admin@dt.com / admin123  (staff, /admin/)
+#   dona@dt.com / Dona.2026  (donador)
+#   inte@dt.com / Dona.2026  (interesado + like en 1ª donación)
+#   Omitir seed: SKIP_DOCKER_DEMO_SEED=true en el servicio web.
+#
+# App: http://localhost:8000  ·  Postgres solo en red interna (puerto no expuesto por defecto)
+#
+# Imágenes de donaciones (/media/): con DJANGO_DEBUG=false, DJANGO_SERVE_MEDIA=true sirve uploads desde Django (stack local/dev).
+#
+# Fotos en disco del host (runserver fuera del contenedor): app/media/ o restos app/.compose_data/ — borrables a mano o con bin/clean_local_artifacts.*.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: donatinder-postgres
+    environment:
+      POSTGRES_USER: donatinder
+      POSTGRES_PASSWORD: donatinder
+      POSTGRES_DB: donatinder
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U donatinder -d donatinder']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+      python manage.py seed_docker_demo &&
+      gunicorn --pythonpath /app config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120"
+    ports:
+      - '8000:8000'
+    environment:
+      PYTHONPATH: /app
+      DATABASE_URL: postgresql://donatinder:donatinder@postgres:5432/donatinder
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-false}
+      DJANGO_SERVE_MEDIA: ${DJANGO_SERVE_MEDIA:-true}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1,web}
+      DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-dev-docker-compose-change-me-at-least-50-chars-xxxx}
+      DJANGO_SECURE_SSL_REDIRECT: ${DJANGO_SECURE_SSL_REDIRECT:-false}
+      DJANGO_EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      SKIP_DOCKER_DEMO_SEED: ${SKIP_DOCKER_DEMO_SEED:-false}
+    volumes:
+      # Media en volumen nombrado (down -v lo borra junto a Postgres; no llena app/.compose_data en el host).
+      - uploads_data:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  uploads_data:
