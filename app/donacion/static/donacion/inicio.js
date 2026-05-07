@@ -269,22 +269,50 @@
       renderDeck();
     }
 
-    var dragFns = bindDrag(top, swipeLeftCommitted, swipeRightCommitted);
+    var committing = false;
+    var btnNope = ctrl.querySelector('.dt-swipe-btn-nope');
+    var btnLike = ctrl.querySelector('.dt-swipe-btn-like');
+
+    function setCommitUi(active) {
+      committing = active;
+      var pe = active ? 'none' : '';
+      wrap.style.pointerEvents = pe;
+      ctrl.style.pointerEvents = pe;
+      if (btnNope) btnNope.disabled = active;
+      if (btnLike) btnLike.disabled = active;
+      top.style.pointerEvents = pe;
+    }
+
+    var dragFns = bindDrag(
+      top,
+      function guardedLeft() {
+        if (committing) return;
+        swipeLeftCommitted();
+      },
+      function guardedRight() {
+        if (committing) return;
+        swipeRightCommitted();
+      }
+    );
 
     function swipeLeftCommitted() {
       var id = items[index].id;
       var restoreIndex = index;
+      setCommitUi(true);
       postJson(decisionUrl, { donacion_id: id, action: 'pass' }).then(function (r) {
         if (!r.ok) {
+          setCommitUi(false);
           dragFns.resetDrag();
+          var err = r.data && r.data.error;
           alert(
-            r.data && r.data.error
-              ? 'No se pudo guardar. Probá de nuevo.'
+            r.status === 409 && err === 'ya_interesado'
+              ? 'Ya marcaste interés en esta donación. Recargá la página si ves tarjetas desactualizadas.'
               : 'No se pudo guardar. Probá de nuevo.'
           );
           return;
         }
         flyOutCard(top, 'left', function () {
+          setCommitUi(false);
           index += 1;
           renderDeck();
           showPassUndoToast(id, restoreIndex);
@@ -294,8 +322,10 @@
 
     function swipeRightCommitted() {
       var id = items[index].id;
+      setCommitUi(true);
       postJson(decisionUrl, { donacion_id: id, action: 'interes' }).then(function (r) {
         if (!r.ok) {
+          setCommitUi(false);
           dragFns.resetDrag();
           alert(
             r.data && r.data.error
@@ -304,14 +334,19 @@
           );
           return;
         }
-        flyOutCard(top, 'right', advanceAfterInteres);
+        flyOutCard(top, 'right', function () {
+          setCommitUi(false);
+          advanceAfterInteres();
+        });
       });
     }
 
-    ctrl.querySelector('.dt-swipe-btn-nope').addEventListener('click', function () {
+    btnNope.addEventListener('click', function () {
+      if (committing) return;
       swipeLeftCommitted();
     });
-    ctrl.querySelector('.dt-swipe-btn-like').addEventListener('click', function () {
+    btnLike.addEventListener('click', function () {
+      if (committing) return;
       swipeRightCommitted();
     });
   }

@@ -4,17 +4,15 @@
 #   docker compose up -d
 #   docker compose down -v   (vacía Postgres + volumen uploads_data de /app/media)
 #
-# Demo (tras migrate + seed_docker_demo):
-#   admin@dt.com / admin123  (staff, /admin/)
-#   dona@dt.com / Dona.2026  (donador)
-#   inte@dt.com / Dona.2026  (interesado + like en 1ª donación)
+# Demo (tras migrate + seed_docker_demo): varios usuarios y donaciones; ver README.
+#   admin@dt.com / admin123  ·  resto *@dt.com / Dona.2026
 #   Omitir seed: SKIP_DOCKER_DEMO_SEED=true en el servicio web.
 #
 # App: http://localhost:8000  ·  Postgres solo en red interna (puerto no expuesto por defecto)
 #
 # Imágenes de donaciones (/media/): con DJANGO_DEBUG=false, DJANGO_SERVE_MEDIA=true sirve uploads desde Django (stack local/dev).
 #
-# Fotos en disco del host (runserver fuera del contenedor): app/media/ o restos app/.compose_data/ — borrables a mano o con bin/clean_local_artifacts.*.
+# Fotos en disco del host (runserver fuera del contenedor): app/media/ o restos app/.compose_data/ — borrá esas carpetas a mano si hace falta.
 
 services:
   postgres:

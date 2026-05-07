@@ -6,10 +6,8 @@ from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
 
-from donacion.models import Conversacion, DecisionDonacion, Donacion, Mensaje
+from donacion.models import Donacion
 
-DEMO_DONADOR_EMAIL = 'dona@dt.com'
-DEMO_INTERESADO_EMAIL = 'inte@dt.com'
 DEMO_PASSWORD = 'Dona.2026'
 DEMO_ADMIN_EMAIL = 'admin@dt.com'
 DEMO_ADMIN_PASSWORD = 'admin123'
@@ -22,8 +20,34 @@ def _load_fixture_image(filename: str) -> ContentFile:
     return ContentFile(path.read_bytes(), name=filename)
 
 
+def _ensure_password(user, pwd: str) -> None:
+    if not user.has_usable_password():
+        user.set_password(pwd)
+        user.save(update_fields=['password'])
+
+
+def _get_or_create_user(email: str, first_name: str, last_name: str, password: str):
+    User = get_user_model()
+    u, created = User.objects.get_or_create(
+        email=email,
+        defaults={'first_name': first_name, 'last_name': last_name},
+    )
+    if created:
+        u.set_password(password)
+        u.save()
+    else:
+        _ensure_password(u, password)
+    return u
+
+
+def _save_imagen_para_donacion(don: Donacion, foto: str, storage_name: str) -> None:
+    cf = _load_fixture_image(foto)
+    ext = Path(foto).suffix.lower() or '.png'
+    don.imagen.save('%s%s' % (storage_name, ext), cf, save=True)
+
+
 class Command(BaseCommand):
-    help = 'Carga usuarios y donaciones de demostración (fotos en donacion/fixtures/seed_demo/). Idempotente.'
+    help = 'Carga usuarios y 6 donaciones demo (una palabra cada una). Idempotente por donador+nombre.'
 
     def handle(self, *args, **options):
         if os.environ.get('SKIP_DOCKER_DEMO_SEED', '').strip().lower() in ('1', 'true', 'yes'):
@@ -31,7 +55,6 @@ class Command(BaseCommand):
             return
 
         User = get_user_model()
-
         if not User.objects.filter(email=DEMO_ADMIN_EMAIL).exists():
             User.objects.create_superuser(
                 email=DEMO_ADMIN_EMAIL,
@@ -41,80 +64,63 @@ class Command(BaseCommand):
             )
             self.stdout.write('Creado superusuario %(e)s.' % {'e': DEMO_ADMIN_EMAIL})
 
-        if User.objects.filter(email=DEMO_DONADOR_EMAIL).exists():
-            self.stdout.write('Demo ya cargado (omitir donaciones/usuarios demo).')
-            return
+        dona = _get_or_create_user('dona@dt.com', 'Dona', 'Principal', DEMO_PASSWORD)
+        maria = _get_or_create_user('maria@dt.com', 'María', 'Donadora', DEMO_PASSWORD)
+        pedro = _get_or_create_user('pedro@dt.com', 'Pedro', 'Donador2', DEMO_PASSWORD)
+        _get_or_create_user('solo@dt.com', 'Solo', 'Explora', DEMO_PASSWORD)
 
-        donador = User.objects.create_user(
-            email=DEMO_DONADOR_EMAIL,
-            password=DEMO_PASSWORD,
-            first_name='Donador',
-            last_name='DT',
-        )
-        interesado = User.objects.create_user(
-            email=DEMO_INTERESADO_EMAIL,
-            password=DEMO_PASSWORD,
-            first_name='Interesado',
-            last_name='DT',
-        )
+        def upsert_donacion(
+            donador, nombre: str, estado_objetivo: int, descripcion: str, foto: str
+        ) -> Donacion:
+            nombre_s = nombre.strip()[:20]
+            key = 'seed_demo_%s' % nombre_s.lower()
+            d = Donacion.objects.filter(donador=donador, nombre=nombre_s).first()
+            if d is None:
+                d = Donacion(
+                    donador=donador,
+                    nombre=nombre_s,
+                    estado=estado_objetivo,
+                    descripcion=descripcion[:200],
+                    retirado=False,
+                    mostrar_en_feed=True,
+                    estado_publicacion=Donacion.EstadoPublicacion.ACTIVA,
+                    reservado_con=None,
+                )
+                d.save()
+                created = True
+            else:
+                d.estado = estado_objetivo
+                d.descripcion = descripcion[:200]
+                d.retirado = False
+                d.estado_publicacion = Donacion.EstadoPublicacion.ACTIVA
+                d.reservado_con = None
+                d.mostrar_en_feed = True
+                d.save()
+                created = False
+            if created or not d.imagen:
+                _save_imagen_para_donacion(d, foto, key)
+            return d
 
-        muestrario = (
-            (
-                'Bañera rectangular',
-                2,
-                'Bañera blanca buen estado, toalla de presentación incluida. Baño en tonos beige. Coordinar retiro.',
-                'banera.png',
-            ),
-            (
-                'Cama matrimonial',
-                2,
-                'Dormitorio con cama vestida, mesas de luz y vista alta a la ciudad. Coordinar día y forma de retiro.',
-                'cama_ambiente.png',
-            ),
-            (
-                'Smart TV LG',
-                2,
-                'Televisor LG de pantalla plana funcionando, sobre mueble blanco. Dos controles.',
-                'tv_smart.png',
-            ),
-        )
-        donaciones_guardadas = []
-        for idx, (nombre, estado_obj, descr, foto) in enumerate(muestrario):
-            don = Donacion(
-                nombre=nombre,
-                estado=estado_obj,
-                descripcion=descr[:200],
-                donador=donador,
-                retirado=False,
-                mostrar_en_feed=True,
-                estado_publicacion=Donacion.EstadoPublicacion.ACTIVA,
-            )
-            cf = _load_fixture_image(foto)
-            ext = Path(foto).suffix.lower() or '.png'
-            don.imagen.save('seed_demo_%s%s' % (idx, ext), cf, save=False)
-            don.save()
-            donaciones_guardadas.append(don)
-
-        d0 = donaciones_guardadas[0]
-        DecisionDonacion.objects.create(usuario=interesado, donacion=d0, tipo=DecisionDonacion.Tipo.INTERES)
-        conv, _ = Conversacion.objects.get_or_create(donacion=d0, interesado=interesado)
-        Mensaje.objects.create(conversacion=conv, autor=interesado, cuerpo='¿Sigue disponible la bañera?')
-        Mensaje.objects.create(conversacion=conv, autor=donador, cuerpo='Sí, coordinamos cuando quieras.')
+        # 6 donaciones: 2 por donador (solo publican dona, maría y pedro).
+        demo_filas = [
+            (dona, 'Televisor', 2, 'Samsung.', 'televisor.png'),
+            (dona, 'Celular', 2, 'Pantalla ok.', 'celular.png'),
+            (maria, 'Mesa', 2, 'Madera rústica.', 'mesa.png'),
+            (maria, 'Vaso', 1, 'Vidrio.', 'vaso.png'),
+            (pedro, 'Silla', 2, 'Asiento gris.', 'silla.png'),
+            (pedro, 'Bicicleta', 2, 'Montaña roja.', 'bicicleta.png'),
+        ]
+        demo_nombres = {nombre for _, nombre, _, _, _ in demo_filas}
+        for u in (dona, maria, pedro):
+            Donacion.objects.filter(donador=u).exclude(nombre__in=demo_nombres).delete()
+        for donador, nombre, est, descr, foto in demo_filas:
+            upsert_donacion(donador, nombre, est, descr, foto)
 
         self.stdout.write(
             self.style.SUCCESS(
-                'Demo listo:\n'
-                '  Admin Django: %(adm)s / %(admp)s\n'
-                '  %(a)s / %(p)s\n'
-                '  %(b)s / %(p)s\n'
-                'El interesado ya marcó “me interesa” en “%(n)s”; hay mensajes en el chat.'
-                % {
-                    'a': DEMO_DONADOR_EMAIL,
-                    'b': DEMO_INTERESADO_EMAIL,
-                    'p': DEMO_PASSWORD,
-                    'n': d0.nombre,
-                    'adm': DEMO_ADMIN_EMAIL,
-                    'admp': DEMO_ADMIN_PASSWORD,
-                }
+                'Seed demo: 6 donaciones (activas).\n'
+                '  Admin: %(adm)s / %(admp)s\n'
+                '  Misma clave %(pwd)s: dona, maria, pedro, solo.'
+                % {'adm': DEMO_ADMIN_EMAIL, 'admp': DEMO_ADMIN_PASSWORD, 'pwd': DEMO_PASSWORD}
             )
         )

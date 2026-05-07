@@ -16,9 +16,12 @@ RUN python -c "import config.wsgi; import config.urls"
 
 # Si faltan fixtures o comando seed, falla el build antes de compose.
 RUN test -f donacion/management/commands/seed_docker_demo.py \
-    && test -f donacion/fixtures/seed_demo/banera.png \
-    && test -f donacion/fixtures/seed_demo/cama_ambiente.png \
-    && test -f donacion/fixtures/seed_demo/tv_smart.png
+    && test -f donacion/fixtures/seed_demo/televisor.png \
+    && test -f donacion/fixtures/seed_demo/celular.png \
+    && test -f donacion/fixtures/seed_demo/mesa.png \
+    && test -f donacion/fixtures/seed_demo/vaso.png \
+    && test -f donacion/fixtures/seed_demo/silla.png \
+    && test -f donacion/fixtures/seed_demo/bicicleta.png
 
 RUN DJANGO_DEBUG=true DJANGO_ALLOWED_HOSTS=localhost python manage.py collectstatic --noinput
 
